@@ -1,14 +1,28 @@
 import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
+import path from 'path';
+import sql from './config/postgres.js';
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
+dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'OK', message: 'Backend server is running smoothly' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is live on http://localhost:${PORT}`);
-});
+try {
+
+  await sql`SELECT 1`;
+
+  console.log("✅ Database connected successfully");
+
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+
+} catch (error) {
+  console.log(error);
+}
