@@ -34,9 +34,10 @@
 
 import postgres from "postgres";
 import dotenv from "dotenv";
-import path from "path";
 
-dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
+dotenv.config();
+
+console.log(process.env.DATABASE_URL);
 
 if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL is missing in .env");
