@@ -1,13 +1,12 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import path from 'path';
 import sql from './config/postgres.js';
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
-dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
+dotenv.config();
 
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'OK', message: 'Backend server is running smoothly' });

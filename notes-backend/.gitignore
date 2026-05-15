@@ -52,3 +52,4 @@ temp/
 # Optional package manager files
 .pnpm-store/
 .yarn/
+/src/generated/prisma
