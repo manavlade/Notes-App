@@ -9,7 +9,7 @@ export default async function login(email: string, password: string) {
     }
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

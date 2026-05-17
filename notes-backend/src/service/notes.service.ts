@@ -12,7 +12,6 @@ export const createNoteService = async (
 ) => {
 
     if (!title || !content) {
-
         return {
             success: false,
             statusCode: 400,
@@ -25,7 +24,7 @@ export const createNoteService = async (
             success: false,
             statusCode: 400,
             message: "Title must be between 3 and 100 characters",
-        }
+        };
     }
 
     if (content.length < 5 || content.length > 1000) {
@@ -33,13 +32,22 @@ export const createNoteService = async (
             success: false,
             statusCode: 400,
             message: "Content must be between 5 and 1000 characters",
-        }
+        };
     }
 
-    let imageUrl = "";
-    let imageFileId = "";
+    let imageUrl: string | undefined = undefined;
+    let imageFieldId: string | undefined = undefined;
 
     if (file) {
+
+        const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            return {
+                success: false,
+                statusCode: 400,
+                message: "Only image files are allowed (jpeg, jpg, png, webp)",
+            };
+        }
 
         const uploadedImage = await uploadImage(file);
 
@@ -52,16 +60,15 @@ export const createNoteService = async (
         }
 
         imageUrl = uploadedImage.url as string;
-        imageFileId = uploadedImage.fileId as string;
+        imageFieldId = uploadedImage.fileId as string;
     }
-
 
     const note = await prisma.note.create({
         data: {
             title,
             content,
             imageUrl,
-            imageFileId,
+            imageFieldId,
             userId,
         },
     });
@@ -138,6 +145,14 @@ export const updateNoteService = async (
     userId: string
 ) => {
 
+    if (!noteId) {
+        return {
+            success: false,
+            statusCode: 400,
+            message: "Note ID is required",
+        };
+    }
+
     const existingNote = await prisma.note.findFirst({
         where: {
             id: noteId,
@@ -153,17 +168,46 @@ export const updateNoteService = async (
         };
     }
 
+    if (title) {
+        if (title.length < 3 || title.length > 100) {
+            return {
+                success: false,
+                statusCode: 400,
+                message: "Title must be between 3 and 100 characters",
+            };
+        }
+    }
+
+    if (content) {
+        if (content.length < 5 || content.length > 1000) {
+            return {
+                success: false,
+                statusCode: 400,
+                message: "Content must be between 5 and 1000 characters",
+            };
+        }
+    }
+
     let imageUrl = existingNote.imageUrl;
-    let imageFileId = existingNote.imageFileId;
+    let imageFieldId = existingNote.imageFieldId;
 
     if (file) {
 
-        if (existingNote.imageFileId) {
+        const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            return {
+                success: false,
+                statusCode: 400,
+                message: "Only image files are allowed (jpeg, jpg, png, webp)",
+            };
+        }
+
+        if (existingNote.imageFieldId) {
 
             try {
 
                 await client.files.delete(
-                    existingNote.imageFileId
+                    existingNote.imageFieldId
                 );
 
             } catch (error) {
@@ -188,7 +232,7 @@ export const updateNoteService = async (
 
         imageUrl = uploadedImage.url as string;
 
-        imageFileId = uploadedImage.fileId as string;
+        imageFieldId = uploadedImage.fileId as string;
     }
 
     const updatedNote = await prisma.note.update({
@@ -201,7 +245,7 @@ export const updateNoteService = async (
             content,
 
             imageUrl,
-            imageFileId,
+            imageFieldId,
         },
     });
 
@@ -240,6 +284,14 @@ export const deleteNoteService = async (
             statusCode: 404,
             message: "Note not found",
         };
+    }
+
+    if (existingNote.imageFieldId) {
+        try {
+            await client.files.delete(existingNote.imageFieldId);
+        } catch (error) {
+            console.log("Failed to delete image from ImageKit", error);
+        }
     }
 
     await prisma.note.delete({

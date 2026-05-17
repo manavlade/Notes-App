@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import sql from './config/postgres.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
@@ -26,7 +25,7 @@ app.use(
 
 app.use("/api/v1/auth", authRoutes);
 
-app.use("/api/notes", notesRoutes);
+app.use("/api/v1/notes", notesRoutes);
 
 const startServer = async () => {
 

@@ -1,5 +1,7 @@
-import { FC, useEffect, useRef, useState } from "react"
-import { motion, useSpring } from "motion/react"
+import {  useEffect, useRef, useState } from "react"
+import {motion, useSpring } from "framer-motion"
+import type { FC } from "react"
+
 
 interface Position {
   x: number

@@ -3,6 +3,10 @@ import jwt from 'jsonwebtoken';
 
 import prisma from "../config/prisma.js";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export const registerService = async (
     name: string,
     email: string,
@@ -14,6 +18,7 @@ export const registerService = async (
             success: false,
             statusCode: 400,
             message: "Insufficient Data",
+            user: null,
         }
     }
 
@@ -26,6 +31,7 @@ export const registerService = async (
             success: false,
             statusCode: 400,
             message: "User already exists",
+            user: null,
         }
     }
 
@@ -39,7 +45,12 @@ export const registerService = async (
         }
     });
 
-    return user;
+    return {
+        success: true,
+        statusCode: 200,
+        message: "User registered successfully",
+        user,
+    }
 }
 
 export const loginService = async (
@@ -129,7 +140,6 @@ export const getUserByIdService = async (
             name: true,
             email: true,
             createdAt: true,
-            notes: true,
         },
     });
 
@@ -144,7 +154,7 @@ export const getUserByIdService = async (
     return {
         success: true,
         statusCode: 200,
-        message: "Logged out successfully",
+        message: "User fetched successfully",
         user
     }
 }

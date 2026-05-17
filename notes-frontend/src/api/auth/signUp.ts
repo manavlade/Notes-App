@@ -7,7 +7,7 @@ export default async function signUp(name: string, email: string, password: stri
             }
         }
 
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

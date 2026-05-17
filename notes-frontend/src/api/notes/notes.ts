@@ -13,7 +13,7 @@ export default async function createNote(
         if (image) {
             formData.append("image", image);
         }
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes/create-note`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes`, {
             method: "POST",
             credentials: "include",
             body: formData,

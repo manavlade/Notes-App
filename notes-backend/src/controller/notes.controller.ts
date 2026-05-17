@@ -10,14 +10,14 @@ export const createNote = async (
 
   try {
 
-    const { title, content, image } = req.body;
+    const { title, content } = req.body;
 
     const userId = req.user?.userId as string;
 
     const result = await createNoteService(
       title,
       content,
-      image,
+      req.file,
       userId
     );
 
@@ -110,7 +110,7 @@ export const updateNote = async (
 
     const { noteId } = req.params;
 
-    const { title, content, image } = req.body;
+    const { title, content } = req.body;
 
     const userId = req.user?.userId as string;
 
@@ -118,7 +118,7 @@ export const updateNote = async (
       noteId,
       title,
       content,
-      image,
+      req.file,
       userId
     );
 
