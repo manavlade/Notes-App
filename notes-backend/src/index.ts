@@ -1,27 +1,66 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
-import sql from './config/postgres.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
-const app = express();
-const PORT = 5000;
+import authRoutes from './routes/auth.routes.js';
+import notesRoutes from './routes/notes.routes.js';
 
-app.use(express.json());
+import prisma from './config/prisma.js';
+
 dotenv.config();
 
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'OK', message: 'Backend server is running smoothly' });
-});
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-try {
+app.use(express.json());
+app.use(cookieParser());
 
-  await sql`SELECT 1`;
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
-  console.log("✅ Database connected successfully");
+app.use("/api/v1/auth", authRoutes);
 
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-  });
+app.use("/api/v1/notes", notesRoutes);
 
-} catch (error) {
-  console.log(error);
-}
+const startServer = async () => {
+
+  try {
+
+    await prisma.$connect();
+
+    console.log("✅ Database connected successfully");
+
+    app.listen(PORT, () => {
+      console.log(
+        `🚀 Server running on port ${PORT}`
+      );
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    process.exit(1);
+  }
+};
+
+startServer();
+
+// try {
+
+//   await sql`SELECT 1`;
+
+//   console.log("✅ Database connected successfully");
+
+//   app.listen(PORT, () => {
+//     console.log(`🚀 Server running on port ${PORT}`);
+//   });
+
+// } catch (error) {
+//   console.log(error);
+// }
