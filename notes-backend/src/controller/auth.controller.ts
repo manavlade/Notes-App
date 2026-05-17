@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { getUserByIdService, loginService, registerService } from "../service/auth.service.js";
+import { getLoggedInUserService, getUserByIdService, loginService, registerService } from "../service/auth.service.js";
+import { AuthRequest } from "../middleware/auth.middleware.js";
 
 export const registerController = async (
     req: Request,
@@ -140,6 +141,42 @@ export const getUserById = async (
         return res.status(500).json({
             message: "Server Error",
             success: false,
+        });
+    }
+};
+
+
+export const getLoggedInUser = async (
+    req: AuthRequest,
+    res: Response
+) => {
+    try {
+
+        console.log("🔥 CONTROLLER HIT");
+        console.log("USER ID:", req.user?.userId);
+        const userId = req.user?.userId;
+
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized"
+            });
+        }
+
+        const result = await getLoggedInUserService(userId);
+
+        return res.status(result.statusCode).json({
+            success: result.success,
+            message: result.message,
+            user: result.user
+        });
+
+    } catch (error) {
+        console.log("getLoggedInUser controller error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
         });
     }
 };

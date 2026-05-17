@@ -22,8 +22,13 @@ export const isAuthenticated = async (
 
     try {
 
-        const token = req.cookies.token;
-
+        let token = req.cookies.token;
+        if (!token && req.headers.authorization) {
+            const authHeader = req.headers.authorization as string;
+            if (authHeader.startsWith('Bearer ')) {
+                token = authHeader.substring(7);
+            }
+        }
         if (!token) {
             return res.status(401).json({
                 message: "Unauthorized",

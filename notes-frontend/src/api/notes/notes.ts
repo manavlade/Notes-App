@@ -13,7 +13,7 @@ export default async function createNote(
         if (image) {
             formData.append("image", image);
         }
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes`, {
             method: "POST",
             credentials: "include",
             body: formData,
@@ -48,7 +48,7 @@ export default async function createNote(
 export const getAllNotes = async () => {
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes`, {
             method: "GET",
             credentials: "include",
         });
@@ -77,7 +77,7 @@ export const getAllNotes = async () => {
 export const deleteNote = async (noteId: string) => {
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes/${noteId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/${noteId}`, {
             method: "DELETE",
             credentials: "include",
         });
@@ -121,7 +121,7 @@ export const updateNote = async (
             formData.append("image", image);
         }
 
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes/${noteId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/${noteId}`, {
             method: "PUT",
             credentials: "include",
             body: formData,
@@ -152,7 +152,7 @@ export const updateNote = async (
 export const getSingleNote = async (noteId: string) => {
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/notes/${noteId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/notes/${noteId}`, {
             method: "GET",
             credentials: "include",
         });

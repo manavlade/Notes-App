@@ -28,11 +28,11 @@ export default async function login(email: string, password: string) {
             };
         }
 
-             return {
+        return {
             success: true,
             statusCode: response.status,
             message: data.message,
-            user: data.user 
+            user: data.user
         };
 
     } catch (error) {

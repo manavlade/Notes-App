@@ -3,16 +3,18 @@ import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/shared/Navbar'
 import SignUpPage from './components/auth/SignUp'
 import LoginPage from './components/auth/Login'
+import Notespage from './components/notes/NotesPage'
+import HomePage from './components/shared/home'
 
 function App() {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <Routes>
         <Route
           path="/"
-          element={<h1 className='text-3xl font-bold underline'>Home Page</h1>}
+          element={<HomePage/>}
         />
 
         <Route
@@ -23,6 +25,11 @@ function App() {
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+
+        <Route
+          path="/create-note"
+          element={<Notespage />}
         />
       </Routes>
     </>

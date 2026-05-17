@@ -143,7 +143,7 @@ export const getUserByIdService = async (
         },
     });
 
-    if(!user) {
+    if (!user) {
         return {
             success: false,
             statusCode: 404,
@@ -156,5 +156,53 @@ export const getUserByIdService = async (
         statusCode: 200,
         message: "User fetched successfully",
         user
+    }
+}
+
+
+export const getLoggedInUserService = async (
+    userId: string
+) => {
+    try {
+        console.log(userId);
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true
+            }
+        })
+
+        console.log(user);
+
+        if (!user) {
+            return {
+                success: false,
+                statusCode: 404,
+                message: "User not found",
+                user: null
+            };
+        }
+
+        return {
+            success: true,
+            statusCode: 200,
+            message: "User fetched successfully",
+            user
+        };
+
+    } catch (error) {
+        console.log("getMeService error:", error);
+
+        return {
+            success: false,
+            statusCode: 500,
+            message: "Server error",
+            user: null
+        };
     }
 }
