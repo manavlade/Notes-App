@@ -151,7 +151,7 @@ export default function HomePage() {
             </section>
 
             {/* FOOTER */}
-            <footer className="py-10 text-center text-gray-500 text-sm">
+            <footer id="footer" className="py-10 text-center text-gray-500 text-sm">
                 © {new Date().getFullYear()} NotesApp. Built with ❤️ using React + Prisma.
             </footer>
 

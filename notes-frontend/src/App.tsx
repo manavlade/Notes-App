@@ -1,10 +1,10 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/shared/Navbar'
-import SignUpPage from './components/auth/SignUp'
-import LoginPage from './components/auth/Login'
 import Notespage from './components/notes/NotesPage'
 import HomePage from './components/shared/home'
+import SignUpPage from './components/auth/signUp'
+import LoginPage from './components/auth/login'
 
 function App() {
 

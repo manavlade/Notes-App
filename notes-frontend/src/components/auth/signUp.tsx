@@ -46,7 +46,6 @@ export default function SignUpPage() {
     return (
         <div className="min-h-screen flex bg-gray-50">
 
-            {/* LEFT SIDE IMAGE */}
             <div className="hidden lg:flex w-1/2 relative">
                 <img
                     src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
