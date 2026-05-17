@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-    Menu,
-    X,
-    NotebookPen
-} from "lucide-react";
+import { Menu, X, NotebookPen } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -28,12 +24,8 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
 
                     {/* LOGO */}
-                    <Link
-                        to="/"
-                        className="flex items-center gap-2"
-                    >
+                    <Link to="/" className="flex items-center gap-2">
                         <NotebookPen className="h-7 w-7 text-blue-600" />
-
                         <span className="text-xl font-bold text-gray-900">
                             NotesApp
                         </span>
@@ -54,33 +46,27 @@ export default function Navbar() {
                             ))}
                         </div>
 
-                        {/* AUTH BUTTONS */}
+                        {/* STATIC AUTH BUTTONS (TEMPORARY) */}
                         <div className="flex items-center gap-3">
-
                             <Link to="/login">
-                                <Button
-                                    variant="outline"
-                                    className="cursor-pointer"
-                                >
+                                <Button variant="outline">
                                     Login
                                 </Button>
                             </Link>
 
                             <Link to="/signup">
-                                <Button className="cursor-pointer">
+                                <Button>
                                     Sign Up
                                 </Button>
                             </Link>
-
                         </div>
+
                     </div>
 
                     {/* MOBILE MENU BUTTON */}
                     <button
                         className="md:hidden"
-                        onClick={() =>
-                            setMobileMenuOpen(!mobileMenuOpen)
-                        }
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
                         {mobileMenuOpen ? (
                             <X className="h-7 w-7" />
@@ -99,32 +85,22 @@ export default function Navbar() {
                     bg-white shadow-2xl z-50
                     transform transition-transform duration-300 ease-in-out
                     md:hidden
-                    ${mobileMenuOpen
-                        ? "translate-x-0"
-                        : "translate-x-full"
-                    }
+                    ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}
                 `}
             >
 
                 {/* TOP */}
                 <div className="flex items-center justify-between p-5 border-b">
-
                     <div className="flex items-center gap-2">
                         <NotebookPen className="h-6 w-6 text-blue-600" />
-
                         <span className="font-bold text-lg">
                             NotesApp
                         </span>
                     </div>
 
-                    <button
-                        onClick={() =>
-                            setMobileMenuOpen(false)
-                        }
-                    >
+                    <button onClick={() => setMobileMenuOpen(false)}>
                         <X className="h-6 w-6" />
                     </button>
-
                 </div>
 
                 {/* LINKS */}
@@ -135,35 +111,27 @@ export default function Navbar() {
                             key={link.name}
                             to={link.path}
                             className="text-gray-700 hover:text-blue-600 font-medium text-lg"
-                            onClick={() =>
-                                setMobileMenuOpen(false)
-                            }
+                            onClick={() => setMobileMenuOpen(false)}
                         >
                             {link.name}
                         </Link>
                     ))}
 
-                    <div className="flex flex-col gap-3 mt-4">
+                    {/* STATIC AUTH */}
+                    <div className="border-t pt-4 mt-4 flex flex-col gap-3">
 
                         <Link
                             to="/login"
-                            onClick={() =>
-                                setMobileMenuOpen(false)
-                            }
+                            onClick={() => setMobileMenuOpen(false)}
                         >
-                            <Button
-                                variant="outline"
-                                className="w-full"
-                            >
+                            <Button variant="outline" className="w-full">
                                 Login
                             </Button>
                         </Link>
 
                         <Link
                             to="/signup"
-                            onClick={() =>
-                                setMobileMenuOpen(false)
-                            }
+                            onClick={() => setMobileMenuOpen(false)}
                         >
                             <Button className="w-full">
                                 Sign Up
@@ -178,9 +146,7 @@ export default function Navbar() {
             {mobileMenuOpen && (
                 <div
                     className="fixed inset-0 bg-black/40 z-40 md:hidden"
-                    onClick={() =>
-                        setMobileMenuOpen(false)
-                    }
+                    onClick={() => setMobileMenuOpen(false)}
                 />
             )}
 
